@@ -27,7 +27,10 @@ namespace Calendar
             string aktualna_data = DateTime.Today.ToShortDateString();
             string tmp = "Zadania do wykonania w dniu: " + aktualna_data;
             label1.Content = tmp;
+
         }
+
+
 
 
         private void Create_task(object sender, RoutedEventArgs e)
@@ -37,6 +40,20 @@ namespace Calendar
             tasks.Add(window1.new_task.Text);
             list_of_tasks.ItemsSource = tasks;
             list_of_tasks.Items.Refresh();
+            var day = cal.SelectedDate;
+        }
+
+        private void cal_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // ... See if a date is selected.
+            if (cal.SelectedDate.HasValue)
+            {
+                // ... Display SelectedDate in Title.
+                DateTime date = cal.SelectedDate.Value;
+                string tmp = "Zadania do wykonania w dniu: " + date.ToShortDateString();
+                label1.Content = tmp;
+            }
+
         }
     }
 }

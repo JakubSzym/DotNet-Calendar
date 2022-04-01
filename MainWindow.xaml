@@ -17,7 +17,7 @@
             Height="340"
             Stretch="Fill"
             StretchDirection="Both">
-            <Calendar x:Name ="cal" SelectionMode="SingleDate"/>
+            <Calendar x:Name ="cal" SelectionMode="SingleDate" SelectedDatesChanged="cal_SelectedDatesChanged"/>
         </Viewbox>
         <Label x:Name ="label1" Grid.Column="1" Content = "Zadania do wykonania:"/> 
         <StackPanel Orientation="Vertical" Grid.Column="1" Margin="0,22,10,0">
