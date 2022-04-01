@@ -36,6 +36,7 @@ namespace Calendar
             window1.ShowDialog();
             tasks.Add(window1.new_task.Text);
             list_of_tasks.ItemsSource = tasks;
+            list_of_tasks.Items.Refresh();
         }
     }
 }
