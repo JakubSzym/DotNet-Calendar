@@ -7,8 +7,8 @@
         mc:Ignorable="d"
         Title="Window1" Height="300" Width="250">
     <StackPanel>
-        <TextBlock>Podaj treść nowego zadania: </TextBlock>
+        <TextBlock Text="Enter your new task:"/>
         <TextBox x:Name ="new_task" Height ="50"></TextBox>
-        <Button Click="Button_Click">Zapisz</Button>
+        <Button Click="Button_Click" Content="Save"/>
     </StackPanel>
 </Window>

@@ -11,6 +11,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Viewbox
             Width="320"
@@ -19,14 +20,25 @@
             StretchDirection="Both">
             <Calendar x:Name ="cal" SelectionMode="SingleDate" SelectedDatesChanged="cal_SelectedDatesChanged"/>
         </Viewbox>
-        <Label x:Name ="label1" Grid.Column="1" Content = "Zadania do wykonania:"/> 
+        <Label x:Name ="label1" Grid.Column="1" Content = "Things to do on:"/>
         <StackPanel Orientation="Vertical" Grid.Column="1" Margin="0,22,10,0">
-            <ItemsControl x:Name="list_of_tasks">
+            <ItemsControl x:Name="ListOfTasks">
             </ItemsControl>
         </StackPanel>
-        <Button Grid.Column="1" Click ="Create_task" Content="Utwórz nowe zadanie" 
+        <Button Grid.Column="1" Click ="CreateTask" Content="Create new task" 
                 HorizontalAlignment="Right" Margin="0,310,20,15" 
                 VerticalAlignment="Top" Height="34" Width="118"/>
+        <Label x:Name="labelCity" Grid.Column="2" Content="City" HorizontalAlignment="Left" Margin="10,22,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.968,-1.413" Width="65"/>
+        <TextBox x:Name="textBoxCity" Grid.Column="2" HorizontalAlignment="Left" Margin="80,26,0,0" TextWrapping="Wrap" Text="Wroclaw" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="buttonSearch" Click="ButtonSearchClick"  Grid.Column="2" Content="Search" HorizontalAlignment="Left" Margin="200,26,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="labelConditions" Grid.Column="2" Content="Conditions:" HorizontalAlignment="Left" Margin="10,53,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="labelDetails" Grid.Column="2" Content="Details" HorizontalAlignment="Left" Margin="6,84,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="labelSunrise" Grid.Column="2" Content="Sunrise:" HorizontalAlignment="Left" Margin="11,115,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="labelSunset" Grid.Column="2" Content="Sunset" HorizontalAlignment="Left" Margin="11,146,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.467,0.292"/>
+        <Label x:Name="labelWindSpeed" Grid.Column="2" Content="Wind:" HorizontalAlignment="Left" Margin="18,177,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="labelPressure" Grid.Column="2" Content="Pressure:" HorizontalAlignment="Left" Margin="11,208,0,0" VerticalAlignment="Top"/>
+        <Image x:Name="weatherIcon" Grid.Column="2" HorizontalAlignment="Left" Height="100" Margin="80,249,0,0" VerticalAlignment="Top" Width="100"/>
+        <Label x:Name="labelTemp" Grid.Column="2" Content="Temperature:" HorizontalAlignment="Left" Margin="11,236,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

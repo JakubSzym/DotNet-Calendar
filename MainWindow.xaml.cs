@@ -12,6 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Newtonsoft.Json;
+using System.Net;
+using System.Net.Http;
+
 
 namespace Calendar
 {
@@ -20,26 +24,26 @@ namespace Calendar
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<string> tasks = new List<string>();
+        List<string> Tasks = new List<string>();
+        string APIKey = "f2f160e83ec212a5ecbb5de99f90dbb5";
         public MainWindow()
         {
             InitializeComponent();
-            string aktualna_data = DateTime.Today.ToShortDateString();
-            string tmp = "Zadania do wykonania w dniu: " + aktualna_data;
-            label1.Content = tmp;
-
+            string currentDate = DateTime.Today.ToShortDateString();
+            string buffer = "Things to do on: " + currentDate;
+            label1.Content = buffer;
         }
 
 
 
 
-        private void Create_task(object sender, RoutedEventArgs e)
+        private void CreateTask(object sender, RoutedEventArgs e)
         {
             Window1 window1 = new Window1();
             window1.ShowDialog();
-            tasks.Add(window1.new_task.Text);
-            list_of_tasks.ItemsSource = tasks;
-            list_of_tasks.Items.Refresh();
+            Tasks.Add(window1.new_task.Text);
+            ListOfTasks.ItemsSource = Tasks;
+            ListOfTasks.Items.Refresh();
             var day = cal.SelectedDate;
         }
 
@@ -50,10 +54,42 @@ namespace Calendar
             {
                 // ... Display SelectedDate in Title.
                 DateTime date = cal.SelectedDate.Value;
-                string tmp = "Zadania do wykonania w dniu: " + date.ToShortDateString();
-                label1.Content = tmp;
+                string buffer = "Things to do on: " + date.ToShortDateString();
+                label1.Content = buffer;
             }
 
+        }
+
+        private void ButtonSearchClick(object sender, RoutedEventArgs e)
+        {
+            GetWeather();
+        }
+
+        async void GetWeather()
+        {
+            using (HttpClient web = new HttpClient())
+            {
+                string url = string.Format("https://api.openweathermap.org/data/2.5/weather?q={0}&appid={1}", textBoxCity.Text, APIKey);
+                HttpResponseMessage response = await web.GetAsync(url);
+                string json = await response.Content.ReadAsStringAsync();
+                WeatherInfo.root info = JsonConvert.DeserializeObject<WeatherInfo.root>(json);
+
+                weatherIcon.Source = new BitmapImage(new Uri("http://openweathermap.org/img/w/" + info.weather[0].icon + ".png"));
+                labelConditions.Content = "Conditions: " + info.weather[0].main;
+                labelDetails.Content = "Details: " + info.weather[0].description;
+                labelSunset.Content = "Sunset: " + GetTime(info.sys.sunset).ToString();
+                labelSunrise.Content = "Sunrise: " + GetTime(info.sys.sunrise).ToString();
+                labelWindSpeed.Content = "Wind: " + info.wind.speed.ToString() + " m/s";
+                labelPressure.Content = "Pressure: " + info.main.pressure.ToString() + " hPa";
+                labelTemp.Content = "Temperature: " + Convert.ToInt32(info.main.temp - 273.15).ToString() + " C";
+            }
+        }
+
+        DateTime GetTime(long seconds)
+        {
+            DateTime day = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).ToLocalTime();
+            day = day.AddSeconds(seconds).ToLocalTime();
+            return day;
         }
     }
 }
