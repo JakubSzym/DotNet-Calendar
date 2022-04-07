@@ -1,6 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-
+﻿using Microsoft.Extensions.Configuration;
+using System.Data.Entity;
 
 namespace Calendar
 {
