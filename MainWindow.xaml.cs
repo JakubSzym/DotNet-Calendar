@@ -39,18 +39,12 @@ namespace Calendar
 
         public void CreateTask(object sender, RoutedEventArgs e)
         {
-            //Window1 window1 = new Window1();
-            //window1.ShowDialog();
-            //Tasks.Add(window1.new_task.Text);
-            //ListOfTasks.ItemsSource = Tasks;
-            //ListOfTasks.Items.Refresh();
-            var day = cal.SelectedDate;
-
-            var task = new Task { ID = 1, Name = "test1", Date = 10 };
-            //var tasks = new List<Task>();   //temporary list for testing
+            Window1 window1 = new Window1();
+            window1.ShowDialog();
+ 
+            var task = new Task {Name = window1.new_task.Text, Date = cal.SelectedDate};
             var Tasks = new List<Task>();
 
-            
             using (var context = new ApplicationDbContext())
             {
                 context.Tasks.Add(task);
@@ -59,9 +53,7 @@ namespace Calendar
                 Tasks = context.Tasks.ToList();
                 ListOfTasks.ItemsSource = Tasks;
                 ListOfTasks.Items.Refresh();
-
             }
-            
         }
 
         private void cal_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
