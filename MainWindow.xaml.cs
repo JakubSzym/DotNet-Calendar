@@ -24,7 +24,7 @@ namespace Calendar
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<string> Tasks = new List<string>();
+
         string APIKey = "f2f160e83ec212a5ecbb5de99f90dbb5";
         public MainWindow()
         {
@@ -37,14 +37,31 @@ namespace Calendar
 
 
 
-        private void CreateTask(object sender, RoutedEventArgs e)
+        public void CreateTask(object sender, RoutedEventArgs e)
         {
-            Window1 window1 = new Window1();
-            window1.ShowDialog();
-            Tasks.Add(window1.new_task.Text);
-            ListOfTasks.ItemsSource = Tasks;
-            ListOfTasks.Items.Refresh();
+            //Window1 window1 = new Window1();
+            //window1.ShowDialog();
+            //Tasks.Add(window1.new_task.Text);
+            //ListOfTasks.ItemsSource = Tasks;
+            //ListOfTasks.Items.Refresh();
             var day = cal.SelectedDate;
+
+            var task = new Task { ID = 1, Name = "test1", Date = 10 };
+            //var tasks = new List<Task>();   //temporary list for testing
+            var Tasks = new List<Task>();
+
+            
+            using (var context = new ApplicationDbContext())
+            {
+                context.Tasks.Add(task);
+                context.SaveChanges();
+
+                Tasks = context.Tasks.ToList();
+                ListOfTasks.ItemsSource = Tasks;
+                ListOfTasks.Items.Refresh();
+
+            }
+            
         }
 
         private void cal_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
@@ -91,5 +108,7 @@ namespace Calendar
             day = day.AddSeconds(seconds).ToLocalTime();
             return day;
         }
+
+        
     }
 }
