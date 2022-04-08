@@ -51,8 +51,17 @@ namespace Calendar
                 context.SaveChanges();
 
                 Tasks = context.Tasks.ToList();
+
                 ListOfTasks.ItemsSource = Tasks;
                 ListOfTasks.Items.Refresh();
+
+                /*
+                foreach (var item in context.Tasks)
+                {
+                    context.Tasks.Remove(item);
+                }
+                context.SaveChanges();
+                */
             }
         }
 
