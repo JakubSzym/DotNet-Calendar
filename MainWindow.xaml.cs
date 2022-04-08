@@ -37,11 +37,6 @@ namespace Calendar
             label1.Content = buffer;
         }
 
-        public void DisplayTask()
-        {
-   
-        }
-
 
         public void CreateTask(object sender, RoutedEventArgs e)
         {
@@ -63,13 +58,20 @@ namespace Calendar
                 }
                 context.SaveChanges();
                 */
-                
+
+
+                Tasks = context.Tasks.Where(s => s.Date == cal.SelectedDate).ToList();
+
+
             }
+
+            Names.Clear();
 
             foreach (var x in Tasks)
             {
                 Names.Add(x.Name);
             }
+
 
             ListOfTasks.ItemsSource = Names;
             ListOfTasks.Items.Refresh();
@@ -92,9 +94,11 @@ namespace Calendar
                 Tasks = context.Tasks.Where(s => s.Date == cal.SelectedDate).ToList();
             }
 
+            Names.Clear();
 
             foreach (var x in Tasks)
             {
+
                 Names.Add(x.Name);
             }
 
