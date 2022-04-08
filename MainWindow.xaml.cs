@@ -44,6 +44,7 @@ namespace Calendar
  
             var task = new Task {Name = window1.new_task.Text, Date = cal.SelectedDate};
             var Tasks = new List<Task>();
+            var Names = new List<string>();
 
             using (var context = new ApplicationDbContext())
             {
@@ -52,7 +53,12 @@ namespace Calendar
 
                 Tasks = context.Tasks.ToList();
 
-                ListOfTasks.ItemsSource = Tasks;
+                foreach (var x in Tasks)
+                {
+                    Names.Add(x.Name);
+                }
+
+                ListOfTasks.ItemsSource = Names;
                 ListOfTasks.Items.Refresh();
 
                 /*
@@ -62,6 +68,7 @@ namespace Calendar
                 }
                 context.SaveChanges();
                 */
+                
             }
         }
 
