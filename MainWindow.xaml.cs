@@ -25,6 +25,9 @@ namespace Calendar
     public partial class MainWindow : Window
     {
 
+        List<string> Names = new List<string>();
+        List<Task> Tasks = new List<Task>();
+
         string APIKey = "f2f160e83ec212a5ecbb5de99f90dbb5";
         public MainWindow()
         {
@@ -34,7 +37,10 @@ namespace Calendar
             label1.Content = buffer;
         }
 
-
+        public void DisplayTask()
+        {
+   
+        }
 
 
         public void CreateTask(object sender, RoutedEventArgs e)
@@ -43,23 +49,12 @@ namespace Calendar
             window1.ShowDialog();
  
             var task = new Task {Name = window1.new_task.Text, Date = cal.SelectedDate};
-            var Tasks = new List<Task>();
-            var Names = new List<string>();
+  
 
             using (var context = new ApplicationDbContext())
             {
                 context.Tasks.Add(task);
                 context.SaveChanges();
-
-                Tasks = context.Tasks.ToList();
-
-                foreach (var x in Tasks)
-                {
-                    Names.Add(x.Name);
-                }
-
-                ListOfTasks.ItemsSource = Names;
-                ListOfTasks.Items.Refresh();
 
                 /*
                 foreach (var item in context.Tasks)
@@ -70,6 +65,15 @@ namespace Calendar
                 */
                 
             }
+
+            foreach (var x in Tasks)
+            {
+                Names.Add(x.Name);
+            }
+
+            ListOfTasks.ItemsSource = Names;
+            ListOfTasks.Items.Refresh();
+
         }
 
         private void cal_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
@@ -82,6 +86,20 @@ namespace Calendar
                 string buffer = "Things to do on: " + date.ToShortDateString();
                 label1.Content = buffer;
             }
+
+            using (var context = new ApplicationDbContext())
+            {
+                Tasks = context.Tasks.Where(s => s.Date == cal.SelectedDate).ToList();
+            }
+
+
+            foreach (var x in Tasks)
+            {
+                Names.Add(x.Name);
+            }
+
+            ListOfTasks.ItemsSource = Names;
+            ListOfTasks.Items.Refresh();
 
         }
 
