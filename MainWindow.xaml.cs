@@ -22,10 +22,11 @@ namespace Calendar
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
     public partial class MainWindow : Window
     {
 
-        List<string> Names = new List<string>();
+        List<Item> Items = new List<Item>();
         List<Task> Tasks = new List<Task>();
 
         string APIKey = "f2f160e83ec212a5ecbb5de99f90dbb5";
@@ -65,15 +66,15 @@ namespace Calendar
 
             }
 
-            Names.Clear();
+            Items.Clear();
 
             foreach (var x in Tasks)
             {
-                Names.Add(x.Name);
+                Items.Add(new Item(x.Name));
             }
 
 
-            ListOfTasks.ItemsSource = Names;
+            ListOfTasks.ItemsSource = Items;
             ListOfTasks.Items.Refresh();
 
         }
@@ -94,15 +95,15 @@ namespace Calendar
                 Tasks = context.Tasks.Where(s => s.Date == cal.SelectedDate).ToList();
             }
 
-            Names.Clear();
+            Items.Clear();
 
             foreach (var x in Tasks)
             {
 
-                Names.Add(x.Name);
+                Items.Add(new Item(x.Name));
             }
 
-            ListOfTasks.ItemsSource = Names;
+            ListOfTasks.ItemsSource = Items;
             ListOfTasks.Items.Refresh();
 
         }
@@ -140,5 +141,17 @@ namespace Calendar
         }
 
         
+    }
+
+    public class Item
+    {
+        public string Content { get; set; }
+        public bool IsMarked { get; set; }
+
+        public Item(string content)
+        {
+            Content = content;
+            IsMarked = false;
+        }
     }
 }

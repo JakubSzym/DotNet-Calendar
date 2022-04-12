@@ -23,6 +23,13 @@
         <Label x:Name ="label1" Grid.Column="1" Content = "Things to do on:"/>
         <StackPanel Orientation="Vertical" Grid.Column="1" Margin="0,22,10,0">
             <ItemsControl x:Name="ListOfTasks">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox Margin="4"
+                                  IsChecked="{Binding isMarked}"
+                                  Content="{Binding Content}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
             </ItemsControl>
         </StackPanel>
         <Button Grid.Column="1" Click ="CreateTask" Content="Create new task" 
