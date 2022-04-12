@@ -39,7 +39,7 @@ namespace Calendar
         }
 
 
-        public void CreateTask(object sender, RoutedEventArgs e)
+        private void CreateTask(object sender, RoutedEventArgs e)
         {
             Window1 window1 = new Window1();
             window1.ShowDialog();
@@ -79,6 +79,49 @@ namespace Calendar
 
         }
 
+        private void DeleteMarkedTasks(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in Items)
+            {
+                if (item.IsMarked)
+                {
+                    using (var context = new ApplicationDbContext())
+                    {
+                        foreach (var task in context.Tasks)
+                        {
+                            if (item.Content == task.Name)
+                            {
+                                context.Tasks.Remove(task);
+                            }
+                        }
+                        context.SaveChanges();
+                    }
+                    Task? help = new Task();
+                    foreach (var task in Tasks)
+                    {
+                        if (item.Content == task.Name)
+                        {
+                            help = task;
+                            break;
+                        }
+                    }
+                    Tasks.Remove(help);
+                }
+            }
+
+            Items.Clear();
+
+            foreach (var x in Tasks)
+            {
+                Items.Add(new Item(x.Name));
+            }
+
+
+            ListOfTasks.ItemsSource = Items;
+            ListOfTasks.Items.Refresh();
+
+        }
+
         private void cal_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
             // ... See if a date is selected.
@@ -99,7 +142,6 @@ namespace Calendar
 
             foreach (var x in Tasks)
             {
-
                 Items.Add(new Item(x.Name));
             }
 

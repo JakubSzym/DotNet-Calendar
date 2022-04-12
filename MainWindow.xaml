@@ -26,7 +26,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <CheckBox Margin="4"
-                                  IsChecked="{Binding isMarked}"
+                                  IsChecked="{Binding IsMarked}"
                                   Content="{Binding Content}"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
@@ -34,6 +34,9 @@
         </StackPanel>
         <Button Grid.Column="1" Click ="CreateTask" Content="Create new task" 
                 HorizontalAlignment="Right" Margin="0,310,20,15" 
+                VerticalAlignment="Top" Height="34" Width="118"/>
+        <Button Grid.Column="1" Click ="DeleteMarkedTasks" Content="Delete marked tasks" 
+                HorizontalAlignment="Right" Margin="0,271,20,0" 
                 VerticalAlignment="Top" Height="34" Width="118"/>
         <Label x:Name="labelCity" Grid.Column="2" Content="City" HorizontalAlignment="Left" Margin="10,22,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.968,-1.413" Width="65"/>
         <TextBox x:Name="textBoxCity" Grid.Column="2" HorizontalAlignment="Left" Margin="80,26,0,0" TextWrapping="Wrap" Text="Wroclaw" VerticalAlignment="Top" Width="120"/>
