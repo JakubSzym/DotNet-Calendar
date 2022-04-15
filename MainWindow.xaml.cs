@@ -28,42 +28,23 @@ namespace Calendar
 
         List<Item> Items = new List<Item>();
         List<Task> Tasks = new List<Task>();
+        string currentDate = DateTime.Today.ToShortDateString();
 
         string APIKey = "f2f160e83ec212a5ecbb5de99f90dbb5";
         public MainWindow()
         {
             InitializeComponent();
-            string currentDate = DateTime.Today.ToShortDateString();
+            DisplayTasksAfterStart();
             string buffer = "Things to do on: " + currentDate;
             label1.Content = buffer;
         }
 
 
-        private void CreateTask(object sender, RoutedEventArgs e)
+        public void DisplayTasksAfterStart()
         {
-            Window1 window1 = new Window1();
-            window1.ShowDialog();
- 
-            var task = new Task {Name = window1.new_task.Text, Date = cal.SelectedDate};
-  
-
             using (var context = new ApplicationDbContext())
             {
-                context.Tasks.Add(task);
-                context.SaveChanges();
-
-                /*
-                foreach (var item in context.Tasks)
-                {
-                    context.Tasks.Remove(item);
-                }
-                context.SaveChanges();
-                */
-
-
-                Tasks = context.Tasks.Where(s => s.Date == cal.SelectedDate).ToList();
-
-
+                Tasks = context.Tasks.Where(s => s.Date == DateTime.Today).ToList();
             }
 
             Items.Clear();
@@ -73,11 +54,67 @@ namespace Calendar
                 Items.Add(new Item(x.Name));
             }
 
+            ListOfTasks.ItemsSource = Items;
+            ListOfTasks.Items.Refresh();
+        }
+
+
+
+        public void RefreshListOfTasks()
+        {
+            Items.Clear();
+
+            foreach (var x in Tasks)
+            {
+                Items.Add(new Item(x.Name));
+            }
 
             ListOfTasks.ItemsSource = Items;
             ListOfTasks.Items.Refresh();
-
         }
+
+
+        private void CreateTask(object sender, RoutedEventArgs e)
+        {
+            Window1 window1 = new Window1();
+            window1.ShowDialog();
+ 
+            var task = new Task {Name = window1.new_task.Text, Date = cal.SelectedDate};
+
+            using (var context = new ApplicationDbContext())
+            {
+                context.Tasks.Add(task);
+                context.SaveChanges();
+                /*
+                foreach (var item in context.Tasks)
+                {
+                    context.Tasks.Remove(item);
+                }
+                context.SaveChanges();
+                */
+                Tasks = context.Tasks.Where(s => s.Date == cal.SelectedDate).ToList();
+            }
+            RefreshListOfTasks();
+        }
+
+        private void cal_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // ... See if a date is selected.
+            if (cal.SelectedDate.HasValue)
+            {
+                // ... Display SelectedDate in Title.
+                DateTime date = cal.SelectedDate.Value;
+                string buffer = "Things to do on: " + date.ToShortDateString();
+                label1.Content = buffer;
+            }
+
+            using (var context = new ApplicationDbContext())
+            {
+                Tasks = context.Tasks.Where(s => s.Date == cal.SelectedDate).ToList();
+            }
+            RefreshListOfTasks();
+        }
+
 
         private void DeleteMarkedTasks(object sender, RoutedEventArgs e)
         {
@@ -108,47 +145,9 @@ namespace Calendar
                     Tasks.Remove(help);
                 }
             }
-
-            Items.Clear();
-
-            foreach (var x in Tasks)
-            {
-                Items.Add(new Item(x.Name));
-            }
-
-
-            ListOfTasks.ItemsSource = Items;
-            ListOfTasks.Items.Refresh();
-
+            RefreshListOfTasks();
         }
 
-        private void cal_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
-        {
-            // ... See if a date is selected.
-            if (cal.SelectedDate.HasValue)
-            {
-                // ... Display SelectedDate in Title.
-                DateTime date = cal.SelectedDate.Value;
-                string buffer = "Things to do on: " + date.ToShortDateString();
-                label1.Content = buffer;
-            }
-
-            using (var context = new ApplicationDbContext())
-            {
-                Tasks = context.Tasks.Where(s => s.Date == cal.SelectedDate).ToList();
-            }
-
-            Items.Clear();
-
-            foreach (var x in Tasks)
-            {
-                Items.Add(new Item(x.Name));
-            }
-
-            ListOfTasks.ItemsSource = Items;
-            ListOfTasks.Items.Refresh();
-
-        }
 
         private void ButtonSearchClick(object sender, RoutedEventArgs e)
         {
