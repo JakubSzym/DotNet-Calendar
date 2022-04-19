@@ -145,17 +145,20 @@ namespace Calendar
             {
                 string url = string.Format("https://api.openweathermap.org/data/2.5/weather?q={0}&appid={1}", textBoxCity.Text, APIKey);
                 HttpResponseMessage response = await web.GetAsync(url);
-                string json = await response.Content.ReadAsStringAsync();
+                string? json = await response.Content.ReadAsStringAsync();
+                
                 WeatherInfo.root info = JsonConvert.DeserializeObject<WeatherInfo.root>(json);
-
-                weatherIcon.Source = new BitmapImage(new Uri("http://openweathermap.org/img/w/" + info.weather[0].icon + ".png"));
-                labelConditions.Content = "Conditions: " + info.weather[0].main;
-                labelDetails.Content = "Details: " + info.weather[0].description;
-                labelSunset.Content = "Sunset: " + GetTime(info.sys.sunset).ToString();
-                labelSunrise.Content = "Sunrise: " + GetTime(info.sys.sunrise).ToString();
-                labelWindSpeed.Content = "Wind: " + info.wind.speed.ToString() + " m/s";
-                labelPressure.Content = "Pressure: " + info.main.pressure.ToString() + " hPa";
-                labelTemp.Content = "Temperature: " + Convert.ToInt32(info.main.temp - 273.15).ToString() + " C";
+                if (info.weather != null)
+                { 
+                    weatherIcon.Source = new BitmapImage(new Uri("http://openweathermap.org/img/w/" + info.weather[0].icon + ".png"));
+                    labelConditions.Content = "Conditions: " + info.weather[0].main;
+                    labelDetails.Content = "Details: " + info.weather[0].description;
+                    labelSunset.Content = "Sunset: " + GetTime(info.sys.sunset).ToString();
+                    labelSunrise.Content = "Sunrise: " + GetTime(info.sys.sunrise).ToString();
+                    labelWindSpeed.Content = "Wind: " + info.wind.speed.ToString() + " m/s";
+                    labelPressure.Content = "Pressure: " + info.main.pressure.ToString() + " hPa";
+                    labelTemp.Content = "Temperature: " + Convert.ToInt32(info.main.temp - 273.15).ToString() + " C";
+                }
             }
         }
 

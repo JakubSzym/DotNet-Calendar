@@ -13,9 +13,9 @@ namespace Calendar
 
         public class weather
         {
-            public string main { get; set; }
-            public string description { get; set; }
-            public string icon { get; set; }
+            public string? main { get; set; }
+            public string? description { get; set; }
+            public string? icon { get; set; }
         }
 
         public class main
@@ -38,11 +38,11 @@ namespace Calendar
 
         public class root
         {
-            public coord coord { get; set; }
-            public List<weather> weather { get; set; }
-            public main main { get; set; }
-            public wind wind { get; set; }
-            public sys sys { get; set; }
+            public coord? coord { get; set; }
+            public List<weather>? weather { get; set; }
+            public main? main { get; set; }
+            public wind? wind { get; set; }
+            public sys? sys { get; set; }
         }
     }
 }
