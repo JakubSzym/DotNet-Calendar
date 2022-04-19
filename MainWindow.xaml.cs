@@ -1,19 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Newtonsoft.Json;
-using System.Net;
 using System.Net.Http;
 
 
@@ -85,13 +76,7 @@ namespace Calendar
             {
                 context.Tasks.Add(task);
                 context.SaveChanges();
-                /*
-                foreach (var item in context.Tasks)
-                {
-                    context.Tasks.Remove(item);
-                }
-                context.SaveChanges();
-                */
+
                 Tasks = context.Tasks.Where(s => s.Date == cal.SelectedDate).ToList();
             }
             RefreshListOfTasks();
@@ -182,17 +167,5 @@ namespace Calendar
         }
 
         
-    }
-
-    public class Item
-    {
-        public string Content { get; set; }
-        public bool IsMarked { get; set; }
-
-        public Item(string content)
-        {
-            Content = content;
-            IsMarked = false;
-        }
     }
 }

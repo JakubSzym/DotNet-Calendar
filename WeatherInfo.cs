@@ -1,10 +1,5 @@
-//f2f160e83ec212a5ecbb5de99f90dbb5 - API KEY
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Calendar
 {
