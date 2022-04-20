@@ -16,12 +16,11 @@ namespace Calendar
     /// 
     public partial class MainWindow : Window
     {
-
         List<Item> Items = new List<Item>();
         List<Task> Tasks = new List<Task>();
         string currentDate = DateTime.Today.ToShortDateString();
-
-        string APIKey = "f2f160e83ec212a5ecbb5de99f90dbb5";
+        const string APIKey = "f2f160e83ec212a5ecbb5de99f90dbb5";
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -29,7 +28,6 @@ namespace Calendar
             string buffer = "Things to do on: " + currentDate;
             label1.Content = buffer;
         }
-
 
         public void DisplayTasksAfterStart()
         {
@@ -49,8 +47,6 @@ namespace Calendar
             ListOfTasks.Items.Refresh();
         }
 
-
-
         public void RefreshListOfTasks()
         {
             Items.Clear();
@@ -63,7 +59,6 @@ namespace Calendar
             ListOfTasks.ItemsSource = Items;
             ListOfTasks.Items.Refresh();
         }
-
 
         private void CreateTask(object sender, RoutedEventArgs e)
         {
@@ -79,6 +74,7 @@ namespace Calendar
 
                 Tasks = context.Tasks.Where(s => s.Date == cal.SelectedDate).ToList();
             }
+
             RefreshListOfTasks();
         }
 
@@ -97,9 +93,9 @@ namespace Calendar
             {
                 Tasks = context.Tasks.Where(s => s.Date == cal.SelectedDate).ToList();
             }
+
             RefreshListOfTasks();
         }
-
 
         private void DeleteMarkedTasks(object sender, RoutedEventArgs e)
         {
@@ -133,7 +129,6 @@ namespace Calendar
             RefreshListOfTasks();
         }
 
-
         private void ButtonSearchClick(object sender, RoutedEventArgs e)
         {
             GetWeather();
@@ -148,16 +143,17 @@ namespace Calendar
                 string? json = await response.Content.ReadAsStringAsync();
                 
                 WeatherInfo.root info = JsonConvert.DeserializeObject<WeatherInfo.root>(json);
+                
                 if (info.weather != null)
                 { 
-                    weatherIcon.Source = new BitmapImage(new Uri("http://openweathermap.org/img/w/" + info.weather[0].icon + ".png"));
-                    labelConditions.Content = "Conditions: " + info.weather[0].main;
-                    labelDetails.Content = "Details: " + info.weather[0].description;
-                    labelSunset.Content = "Sunset: " + GetTime(info.sys.sunset).ToString();
-                    labelSunrise.Content = "Sunrise: " + GetTime(info.sys.sunrise).ToString();
-                    labelWindSpeed.Content = "Wind: " + info.wind.speed.ToString() + " m/s";
-                    labelPressure.Content = "Pressure: " + info.main.pressure.ToString() + " hPa";
-                    labelTemp.Content = "Temperature: " + Convert.ToInt32(info.main.temp - 273.15).ToString() + " C";
+                    weatherIcon.Source      = new BitmapImage(new Uri("http://openweathermap.org/img/w/" + info.weather[0].icon + ".png"));
+                    labelConditions.Content = "Conditions: "  + info.weather[0].main;
+                    labelDetails.Content    = "Details: "     + info.weather[0].description;
+                    labelSunset.Content     = "Sunset: "      + GetTime(info.sys.sunset).ToString();
+                    labelSunrise.Content    = "Sunrise: "     + GetTime(info.sys.sunrise).ToString();
+                    labelWindSpeed.Content  = "Wind: "        + info.wind.speed.ToString() + " m/s";
+                    labelPressure.Content   = "Pressure: "    + info.main.pressure.ToString() + " hPa";
+                    labelTemp.Content       = "Temperature: " + Convert.ToInt32(info.main.temp - 273.15).ToString() + " C";
                 }
             }
         }
@@ -167,8 +163,6 @@ namespace Calendar
             DateTime day = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).ToLocalTime();
             day = day.AddSeconds(seconds).ToLocalTime();
             return day;
-        }
-
-        
+        }   
     }
 }
