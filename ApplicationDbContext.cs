@@ -1,28 +1,24 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System.Data.Entity;
 
-namespace Calendar
-{
-    public class ApplicationDbContext : DbContext
-    {
 
+
+namespace Calendar
+{   
+    /**
+    * @class ApplicationDbContext Klasa która zawiera kontekst utworzonej bazy danych. 
+    * Dziedziczy ona po klasie DbConetxt z Entity Framweorka.
+    **/
+    public class ApplicationDbContext : DbContext
+    {   
+        /**
+        * @var Tasks Zawiera listę obiektów klasy Task. 
+        **/
         public DbSet<Task>? Tasks { get; set; }
 
         public ApplicationDbContext() : base()
         {
 
         }
-
-
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //  var builder = new ConfigurationBuilder()
-        //      .AddJsonFile($"appsettings.json", true, true);
-
-        //  var config = builder.Build();
-
-
-        //}
     }
 }

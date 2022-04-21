@@ -16,11 +16,30 @@ namespace Calendar
     /// 
     public partial class MainWindow : Window
     {
+        /**
+        * @var Itemms Przechowuje zadania do wykonania które są wyświetlane w oknie Aplikacji
+        **/
         List<Item> Items = new List<Item>();
+
+        /**
+        * @var Tasks Przechowuje zadania do wykonania pobrane z bazy danych
+        **/
         List<Task> Tasks = new List<Task>();
+
+        /**
+        * @var currentDate Przechowuje aktulną datę w postaci stringa.
+        **/
         string currentDate = DateTime.Today.ToShortDateString();
+
+        /**
+        * @var APIKey Przechowuje klucz do zewnętrzengo API - OpenWeather.
+        **/
         const string APIKey = "f2f160e83ec212a5ecbb5de99f90dbb5";
         
+        /**
+        * @brief Konstruktor klasy MainWindow. Inicjalizuje wszytskie obiektu XAML oraz uruchamia funkcję
+        * DisplayTasksAfterStart.
+        **/ 
         public MainWindow()
         {
             InitializeComponent();
@@ -28,7 +47,10 @@ namespace Calendar
             string buffer = "Things to do on: " + currentDate;
             label1.Content = buffer;
         }
-
+        
+        /**
+        * @brief Funkcja wyświetla stworzone zadania na aktualny (dzisiejszy) dzień.
+        **/ 
         public void DisplayTasksAfterStart()
         {
             using (var context = new ApplicationDbContext())
@@ -47,6 +69,10 @@ namespace Calendar
             ListOfTasks.Items.Refresh();
         }
 
+        /**
+        * @brief Funkcja odświeża kontrolke XAML (Liste), która wyświetla w oknie głownym 
+        * apliakcji nasze zadania do wykonania.
+        **/ 
         public void RefreshListOfTasks()
         {
             Items.Clear();
@@ -60,6 +86,12 @@ namespace Calendar
             ListOfTasks.Items.Refresh();
         }
 
+
+        /**
+        * @brief Funkcja ta tworzy nowe zadania i zapisuje je do bazy danych.
+        * @param sender Obiekt XAML który wywołuje tą funkcję.
+        * @param e Zdarzenie, które zostało wywołane na danej kontrolce.
+        **/ 
         private void CreateTask(object sender, RoutedEventArgs e)
         {
             Window1 window1 = new Window1();
@@ -77,7 +109,13 @@ namespace Calendar
 
             RefreshListOfTasks();
         }
+        
 
+        /**
+        * @brief Funkcja ta zmienia liste wyświetlanych zadań po wybraniu konkretnego dnia w kalendarzu.
+        * @param sender Obiekt XAML który wywołuje tą funkcję.
+        * @param e Zdarzenie, które zostało wywołane na danej kontrolce.
+        **/ 
         private void cal_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
             // ... See if a date is selected.
@@ -97,6 +135,13 @@ namespace Calendar
             RefreshListOfTasks();
         }
 
+
+        /**
+        * @brief Funkcja usuwa zaznaczone zadania do wykonania na konretny dzień. 
+        * Zadania do usnięcia są zaznaczone poprzez checkboxy
+        * @param sender Obiekt XAML który wywołuje tą funkcję.
+        * @param e Zdarzenie, które zostało wywołane na danej kontrolce.
+        **/ 
         private void DeleteMarkedTasks(object sender, RoutedEventArgs e)
         {
             foreach (var item in Items)
@@ -129,11 +174,20 @@ namespace Calendar
             RefreshListOfTasks();
         }
 
+        /**
+        * @brief Obsługuje kliknięcie przycisku SEARCH, w celu sprawdzenia pogody.
+        * @param sender Obiekt XAML który wywołuje tą funkcję.
+        * @param e Zdarzenie, które zostało wywołane na danej kontrolce.
+        **/ 
         private void ButtonSearchClick(object sender, RoutedEventArgs e)
         {
             GetWeather();
         }
 
+
+        /**
+        * @brief Funkcja ta pobiera informacje pogodowe z zewnętrznego API.
+        **/ 
         async void GetWeather()
         {
             using (HttpClient web = new HttpClient())
@@ -158,6 +212,11 @@ namespace Calendar
             }
         }
 
+        /**
+        * @brief Funkcja zamienia czas unixowy na datę i godzinę.
+        * @param seconds Liczba sekund od 1 stycznia 1970 roku.
+        * @return day Zwraca datę i godzinę.
+        **/ 
         DateTime GetTime(long seconds)
         {
             DateTime day = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).ToLocalTime();
