@@ -10,17 +10,34 @@ using System.Net.Http;
 
 namespace Calendar
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    /// 
+    /**
+    * @class MainWindow - Główne okno programu
+    **/
     public partial class MainWindow : Window
     {
+        /**
+        * @var Items - lista zadań gotowa do wyświetlenia
+        **/
         List<Item> Items = new List<Item>();
+
+        /**
+        * @var Tasks - lista zadań pobrana z bazy danych
+        **/
         List<Task> Tasks = new List<Task>();
+
+        /**
+        * @var currentDate - dzisiejsza data
+        **/
         string currentDate = DateTime.Today.ToShortDateString();
+
+        /**
+        * @var APIKey - klucz do zewnętrznego API (Open Weather)
+        **/
         const string APIKey = "f2f160e83ec212a5ecbb5de99f90dbb5";
         
+        /**
+        * @brief - konstruktor klasy MainWindow.
+        **/
         public MainWindow()
         {
             InitializeComponent();
@@ -30,7 +47,7 @@ namespace Calendar
         }
 
         /**
-         * @brief 
+         * @brief Wyświetla zadania na bieżący dzień po starcie aplikacji
         **/
         public void DisplayTasksAfterStart()
         {
@@ -50,6 +67,9 @@ namespace Calendar
             ListOfTasks.Items.Refresh();
         }
 
+        /**
+        * @brief Odświeża listę zadań po operacji dodawania lub usuwania zadań
+        **/
         public void RefreshListOfTasks()
         {
             Items.Clear();
@@ -63,6 +83,10 @@ namespace Calendar
             ListOfTasks.Items.Refresh();
         }
 
+        /**
+        * @brief obsługuje kliknięcie przycisku "Create new task", dodaje nowe zadanie do bazy danych
+        c
+        **/
         private void CreateTask(object sender, RoutedEventArgs e)
         {
             Window1 window1 = new Window1();
@@ -81,6 +105,11 @@ namespace Calendar
             RefreshListOfTasks();
         }
 
+        /**
+        * @brief obsługuje kliknięcie na wybraną datę w kalendarzu
+        * @param sender - obiekt, dla którego wywołano funkcję
+        * @param e - informacje o zdarzeniu
+        **/
         private void cal_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
             // ... See if a date is selected.
@@ -100,6 +129,11 @@ namespace Calendar
             RefreshListOfTasks();
         }
 
+        /**
+        * @brief Obsługuje kliknięcie przycisku "Delete marked tasks", usuwa zaznaczone zadania
+        * @param sender - obiekt, dla którego wywołano funkcję
+        * @param e - informacje o zdarzeniu
+        **/
         private void DeleteMarkedTasks(object sender, RoutedEventArgs e)
         {
             foreach (var item in Items)
@@ -132,12 +166,20 @@ namespace Calendar
             RefreshListOfTasks();
         }
 
+        /**
+        * @brief Obsługuje kliknięcie w przycisk Search
+        * @param sender - obiekt, dla którego wywołano funkcję
+        * @param e - informacje o zdarzeniu
+        **/
         private void ButtonSearchClick(object sender, RoutedEventArgs e)
         {
             GetWeather();
         }
 
-        async void GetWeather()
+        /**
+        * @brief Sprawdza pogodę w wybranym mieście za pomocą zewnętrznego API
+        **/
+        private async void GetWeather()
         {
             using (HttpClient web = new HttpClient())
             {
@@ -160,8 +202,13 @@ namespace Calendar
                 }
             }
         }
-
-        DateTime GetTime(long seconds)
+        
+        /**
+        @brief Zamienia liczbę sekund, które upłynęły od 1 stycznia 1970 roku na datę i godzinę
+        @param seconds - liczba sekund
+        @return day - data i godzina (strefa czasowa użytkownika)
+        **/
+        public DateTime GetTime(long seconds)
         {
             DateTime day = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).ToLocalTime();
             day = day.AddSeconds(seconds).ToLocalTime();
