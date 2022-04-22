@@ -11,32 +11,32 @@ using System.Net.Http;
 namespace Calendar
 {
     /**
-    * @class MainWindow - Główne okno programu
+    * Główne okno programu
     **/
     public partial class MainWindow : Window
     {
         /**
-        * @var Items - lista zadań gotowa do wyświetlenia
+        * lista zadań gotowa do wyświetlenia
         **/
         List<Item> Items = new List<Item>();
 
         /**
-        * @var Tasks - lista zadań pobrana z bazy danych
+        * lista zadań pobrana z bazy danych
         **/
         List<Task> Tasks = new List<Task>();
 
         /**
-        * @var currentDate - dzisiejsza data
+        * dzisiejsza data
         **/
         string currentDate = DateTime.Today.ToShortDateString();
 
         /**
-        * @var APIKey - klucz do zewnętrznego API (Open Weather)
+        * klucz do zewnętrznego API (Open Weather)
         **/
         const string APIKey = "f2f160e83ec212a5ecbb5de99f90dbb5";
         
         /**
-        * @brief - konstruktor klasy MainWindow.
+        * @brief konstruktor klasy MainWindow.
         **/
         public MainWindow()
         {
@@ -85,7 +85,6 @@ namespace Calendar
 
         /**
         * @brief obsługuje kliknięcie przycisku "Create new task", dodaje nowe zadanie do bazy danych
-        c
         **/
         private void CreateTask(object sender, RoutedEventArgs e)
         {

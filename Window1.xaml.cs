@@ -9,6 +9,7 @@ namespace Calendar
         {
             InitializeComponent();
         }
+        
         /**
         * @brief Obsługuje kliknięcie przycisku Save
         * @param sender - obiekt, dla którego wywołano funkcję
