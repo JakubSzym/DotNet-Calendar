@@ -6,8 +6,7 @@ using System.Data.Entity;
 namespace Calendar
 {   
     /**
-    * @class ApplicationDbContext Klasa która zawiera kontekst utworzonej bazy danych. 
-    * Dziedziczy ona po klasie DbConetxt z Entity Framweorka.
+    * @class ApplicationDbContext Klasa która zawiera kontekst utworzonej bazy danych. Dziedziczy ona po klasie DbConetxt z Entity Framweorka.
     **/
     public class ApplicationDbContext : DbContext
     {   
